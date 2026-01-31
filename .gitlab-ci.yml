@@ -1,0 +1,19 @@
+# .gitlab-ci.yml – simple GitLab Pages for static site
+
+stages:
+  - deploy
+
+create-pages:
+  stage: deploy
+  image: alpine:latest
+  script:
+    # Create public/ and copy everything into it
+    - mkdir .public
+    - cp -r * .public
+    - mv .public public
+  pages: true          # tells GitLab this job publishes a Pages site
+  artifacts:
+    paths:
+      - public
+  rules:
+    - if: '$CI_COMMIT_BRANCH == "main"'   # run only on main branch
